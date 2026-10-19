@@ -1,12 +1,9 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { TodoList } from './components/todo-list/todo-list';
 
 @Component({
-  imports: [RouterOutlet],
+  imports: [TodoList],
   selector: 'app-root',
-  styleUrl: './app.scss',
-  templateUrl: './app.html',
+  template: '<app-todo-list/>',
 })
-export class App {
-  protected readonly title = signal('todo-list-frontend');
-}
+export class App { }

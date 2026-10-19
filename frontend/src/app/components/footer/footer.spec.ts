@@ -1,0 +1,11 @@
+import { TestBed } from '@angular/core/testing';
+import { Footer } from './footer';
+
+describe('Footer', () => {
+  it('shows the current year', async () => {
+    await TestBed.configureTestingModule({ imports: [Footer] }).compileComponents();
+    const fixture = TestBed.createComponent(Footer);
+    fixture.detectChanges();
+    expect(fixture.nativeElement.textContent).toContain(`My Todo App - ${new Date().getFullYear()}`);
+  });
+});

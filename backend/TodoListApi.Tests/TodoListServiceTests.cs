@@ -22,8 +22,23 @@ public sealed class TodoListServiceTests
 
         var items = _todoListService.GetAll();
 
-        Assert.Equal(items.Count, _todoListService.GetAll().Count);
+        Assert.Equal(3, items.Count);
         Assert.All(items, item => Assert.Contains(item.Id, new[] { item1.Id, item2.Id, item3.Id }));
+    }
+
+    [Fact]
+    public void GetAll_WhenEmpty_ReturnsEmptyList()
+    {
+        Assert.Empty(_todoListService.GetAll());
+    }
+
+    [Fact]
+    public void Create_AssignsDistinctIds()
+    {
+        var first = _todoListService.Create("First");
+        var second = _todoListService.Create("Second");
+
+        Assert.NotEqual(first.Id, second.Id);
     }
 
     [Fact]
@@ -78,6 +93,20 @@ public sealed class TodoListServiceTests
         Assert.True(result.IsCompleted);
         Assert.Equal(created.CreatedAt, result.CreatedAt);
         Assert.NotEqual(originalUpdatedAt, result.UpdatedAt);
+    }
+
+    [Fact]
+    public void Update_TrimsTitleAndPreservesIdAndCreationTime()
+    {
+        var original = _todoListService.Create("Before");
+
+        var updated = _todoListService.Update(original.Id, "  After  ", false);
+
+        Assert.NotNull(updated);
+        Assert.Equal("After", updated.Title);
+        Assert.Equal(original.Id, updated.Id);
+        Assert.Equal(original.CreatedAt, updated.CreatedAt);
+        Assert.NotNull(updated.UpdatedAt);
     }
 
     [Fact]

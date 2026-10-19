@@ -1,0 +1,63 @@
+:host { display: block; }
+.todo-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid #e8ecf3;
+  border-radius: 12px;
+  transition: background-color 150ms ease;
+}
+.todo-item:hover {
+  background: #fafbfe;
+}
+.todo-checkbox {
+  flex: 0 0 auto;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  cursor: pointer;
+}
+.todo-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+  cursor: pointer;
+}
+.todo-item.completed .todo-title {
+  color: #8991a0;
+  text-decoration: line-through;
+}
+.todo-actions {
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.todo-actions .btn {
+  min-height: 36px;
+  border-radius: 8px;
+}
+button:focus-visible, input:focus-visible { outline: 3px solid rgb(82 103 217 / 35%); outline-offset: 2px; }
+
+@media (max-width: 576px) {
+.todo-item {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 12px;
+  }
+.todo-title {
+    flex: 1 1 calc(100% - 40px);
+  }
+.todo-actions {
+    width: 100%;
+    padding-left: 30px;
+  }
+.todo-actions .btn {
+    flex: 1;
+    min-height: 40px;
+  }
+}

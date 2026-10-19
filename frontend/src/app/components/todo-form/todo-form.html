@@ -1,0 +1,50 @@
+    <form
+      class="todo-form"
+      [formGroup]="form"
+      (ngSubmit)="submitTodo()"
+    >
+      <label class="visually-hidden" for="todo-title">
+        Task description
+      </label>
+
+      <input
+        id="todo-title"
+        class="form-control todo-input"
+        type="text"
+        formControlName="title"
+        maxlength="200"
+        [placeholder]="todo ? 'Update your task...' : 'What needs to get done?'"
+        [attr.aria-invalid]="form.controls.title.invalid && form.controls.title.touched"
+        [attr.aria-describedby]="form.controls.title.touched ? 'title-error' : null"
+      />
+
+      <button
+        class="btn btn-primary add-button"
+        type="submit"
+        [disabled]="saving"
+      >
+        {{ saving ? 'Saving...' : todo ? 'Save changes' : 'Add task' }}
+      </button>
+
+      @if (todo) {
+        <button
+          class="btn btn-outline-secondary cancel-button"
+          type="button"
+          (click)="cancel.emit()"
+          [disabled]="saving"
+        >
+          Cancel
+        </button>
+      }
+    </form>
+
+    @if (form.controls.title.touched && form.controls.title.invalid) {
+      <p id="title-error" class="field-error" role="alert">
+        @if (form.controls.title.hasError('required')) {
+          Please enter a task description.
+        } @else if (form.controls.title.hasError('maxlength')) {
+          The task must be 200 characters or fewer.
+        }
+      </p>
+    }
+

@@ -1,0 +1,17 @@
+<div class="todo-item" [class.completed]="todo.isCompleted">
+  <input
+    class="form-check-input todo-checkbox"
+    type="checkbox"
+    [id]="'todo-' + todo.id"
+    [checked]="todo.isCompleted"
+    [attr.aria-label]="'Mark ' + todo.title + ' as ' + (todo.isCompleted ? 'active' : 'completed')"
+    (change)="toggleComplete.emit(todo)"
+  />
+  <label class="todo-title" [for]="'todo-' + todo.id">{{ todo.title }}</label>
+  <div class="todo-actions">
+    <button class="btn btn-sm btn-outline-secondary" type="button"
+      (click)="edit.emit(todo)" [attr.aria-label]="'Edit ' + todo.title">Edit</button>
+    <button class="btn btn-sm btn-outline-danger" type="button"
+      (click)="remove.emit(todo)" [attr.aria-label]="'Delete ' + todo.title">Delete</button>
+  </div>
+</div>

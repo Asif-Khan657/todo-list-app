@@ -1,0 +1,111 @@
+<main class="todo-page">
+  <app-header />
+  <section class="todo-card" aria-labelledby="page-title">
+    <div class="todo-header">
+      <div>
+        <p class="eyebrow">YOUR DAY, ORGANISED</p>
+        <h2 id="page-title">My Tasks</h2>
+        <p class="subtitle">A little progress every day adds up.</p>
+      </div>
+
+      <div class="task-summary" aria-label="Task summary">
+        <span class="summary-number">{{ activeCount }}</span>
+        <span class="summary-label">remaining</span>
+      </div>
+    </div>
+
+    <div class="task-stats">
+      <span>{{ todoList().length }} total</span>
+      <span>{{ completedCount }} completed</span>
+    </div>
+
+    <app-todo-form
+      [todo]="editingTodo"
+      [saving]="saving"
+      (save)="saveTodo($event)"
+      (cancel)="cancelEditing()"
+    />
+
+    @if (errorMessage) {
+      <div class="alert alert-danger error-alert" role="alert">
+        {{ errorMessage }}
+        <button
+          type="button"
+          class="btn btn-sm btn-outline-danger retry-button"
+          (click)="loadTodoList()"
+        >
+          Retry
+        </button>
+      </div>
+    }
+
+    <nav class="todo-filters" aria-label="Filter tasks">
+      <button
+        type="button"
+        class="filter-button"
+        [class.active]="filter === 'all'"
+        [attr.aria-pressed]="filter === 'all'"
+        (click)="setFilter('all')"
+      >
+        All <span>{{ todoList().length }}</span>
+      </button>
+
+      <button
+        type="button"
+        class="filter-button"
+        [class.active]="filter === 'active'"
+        [attr.aria-pressed]="filter === 'active'"
+        (click)="setFilter('active')"
+      >
+        Active <span>{{ activeCount }}</span>
+      </button>
+
+      <button
+        type="button"
+        class="filter-button"
+        [class.active]="filter === 'completed'"
+        [attr.aria-pressed]="filter === 'completed'"
+        (click)="setFilter('completed')"
+      >
+        Completed <span>{{ completedCount }}</span>
+      </button>
+    </nav>
+
+    @if (loading()) {
+      <div class="loading-state" role="status">
+        <span class="spinner-border spinner-border-sm" aria-hidden="true"></span>
+        <span>Loading your tasks...</span>
+      </div>
+    } @else if (filteredTodoList.length === 0) {
+      <div class="empty-state">
+        <div class="empty-icon" aria-hidden="true">✓</div>
+
+        @if (todoList().length === 0) {
+          <h2>Start with one small step</h2>
+          <p>Add your first task above and make today count.</p>
+        } @else if (filter === 'active') {
+          <h2>All caught up!</h2>
+          <p>You have no active tasks right now.</p>
+        } @else if (filter === 'completed') {
+          <h2>Nothing completed yet</h2>
+          <p>Finished tasks will appear here.</p>
+        }
+      </div>
+    } @else {
+      <ul class="todo-list">
+        @for (todo of filteredTodoList; track todo.id) {
+          <li>
+            <app-todo-item
+              [todo]="todo"
+              (edit)="startEditing($event)"
+              (toggleComplete)="toggleCompleted($event)"
+              (remove)="deleteTodo($event)"
+            />
+          </li>
+        }
+      </ul>
+    }
+  </section>
+
+  <app-footer />
+</main>
