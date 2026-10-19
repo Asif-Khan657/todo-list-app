@@ -1,6 +1,20 @@
 @TodoListApi_HostAddress = http://localhost:5133
 
-GET {{TodoListApi_HostAddress}}/weatherforecast/
+### Get all TODO items
+GET {{TodoListApi_HostAddress}}/api/todos
 Accept: application/json
 
-###
+### Get a TODO item by ID
+GET {{TodoListApi_HostAddress}}/api/todos/c247e4e5-2a94-4053-9271-e522490ab7a9
+Accept: application/json
+
+### Create a TODO item
+POST {{TodoListApi_HostAddress}}/api/todos
+Content-Type: application/json
+
+{
+  "title": "Complete technical assessment"
+}
+
+### Delete a TODO item
+DELETE {{TodoListApi_HostAddress}}/api/todos/c247e4e5-2a94-4053-9271-e522490ab7a9
